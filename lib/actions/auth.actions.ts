@@ -118,5 +118,26 @@ export async function getCurrentUser(): Promise<User | null> {
 export async function isAuthenticated() {
   const user = await getCurrentUser();
 
-  return !!!user
+  return !!!user;
 }
+
+//this promise will return a list or in programming terms an array of interviews and if it fails it will return null
+export async function getInterviewsByUserId(
+  userId: string
+): Promise<Interview[] | null> {
+  const interviews = await db
+    .collection("interviews")
+    .where("userId", "==", userId)
+    .orderBy("createdAt", "desc")
+    .get();
+
+    return interviews.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Interview[]
+}
+// as u can see we are returning an array of interviews as promised in the header of the function
+
+
+
+
