@@ -5,6 +5,8 @@ import React from "react";
 const Interview = async () => {
   const user = await getCurrentUser();
 
+  console.log("the id", user?.id);
+
   return (
     <>
       <h3>Interview Genration</h3>
