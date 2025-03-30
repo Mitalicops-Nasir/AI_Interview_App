@@ -15,7 +15,7 @@ enum CallStatus {
 }
 
 interface savedMessage {
-  type?: "user" | "system" | "assistant";
+  role: "user" | "system" | "assistant";
   content: string;
 }
 
@@ -75,10 +75,7 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
     setCallStatus(CallStatus.CONNECTING);
 
     await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-      variableValues: {
-        username: userName,
-        userid: userId,
-      },
+      variableValues: { username: userName, userid: userId },
     });
   };
 
@@ -154,7 +151,9 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
             <span>{isCallInactiveOrFinished ? "Call" : ".  .  ."}</span>
           </button>
         ) : (
-          <button className="btn-disconnect">End</button>
+          <button className="btn-disconnect" onClick={handleDisconnect}>
+            End
+          </button>
         )}
       </div>
     </>
