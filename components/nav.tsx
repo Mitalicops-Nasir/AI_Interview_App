@@ -15,9 +15,11 @@ const Nav = () => {
         <h2 className="text-primary-100">PrepInterview</h2>
       </Link>
 
-      <Button onClick={() => signOut()} className="btn-primary max-sm:w-full">
-        Log Out
-      </Button>
+      <div>
+        <Button onClick={() => signOut()} className="btn-primary max-sm:w-full">
+          Log Out
+        </Button>
+      </div>
     </nav>
   );
 };
