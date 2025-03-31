@@ -95,13 +95,13 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get("session")?.value;
 
-  console.log("Session Cookie:", sessionCookie); // Debugging
+
 
   if (!sessionCookie) return null;
 
   try {
     const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
-    console.log("Decoded Claims:", decodedClaims); // Debugging
+
 
     // Get user info from Firestore
     const userRecord = await db
@@ -110,7 +110,7 @@ export async function getCurrentUser(): Promise<User | null> {
       .get();
 
     if (!userRecord.exists) {
-      console.log("User not found in database");
+      
       return null;
     }
 
@@ -118,8 +118,6 @@ export async function getCurrentUser(): Promise<User | null> {
       ...userRecord.data(),
       id: userRecord.id,
     } as User;
-
-    console.log("User Data:", userData); // Debugging
 
     return userData;
   } catch (error) {
@@ -134,35 +132,3 @@ export async function isAuthenticated() {
   return !!user;
 }
 
-//this promise will return a list or in programming terms an array of interviews and if it fails it will return null
-export async function getInterviewsByUserId(
-  userId: string
-): Promise<Interview[] | null> {
-  const interviews = await db
-    .collection("interviews")
-    .where("userId", "==", userId)
-    .orderBy("createdAt", "desc")
-    .get();
-
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
-}
-// as u can see we are returning an array of interviews as promised in the header of the function
-export async function getLatestInterviews(
-  params: GetLatestInterviewsParams
-): Promise<Interview[] | null> {
-  const interviews = await db
-    .collection("interviews")
-    .orderBy("createdAt", "desc")
-    .where("finalized", "==", true)
-    .where("userId", "!=", params.userId)
-    .limit(params.limit || 5)
-    .get();
-
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
-}

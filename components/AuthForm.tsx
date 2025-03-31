@@ -65,7 +65,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           return;
         }
 
-        console.log("Sign up", values);
+        
         toast.success("Account created successfully. Please sign in.");
         router.push("/sign-in");
       } else if (type === "sign-in") {
@@ -93,7 +93,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         router.push("/");
         // Sign in logic here
       }
-      console.log(values);
+    
     } catch (error) {
       console.log("Error", error);
       toast.error("Something went wrong, please try again later.");
